@@ -29,7 +29,7 @@ cutsize=`expr $cutsize + 1`
 oldIFS=$IFS
 IFS=$'\n'
 for filename in $filelist; do
-    match=`grep -x $filename $md5prefix.cut | wc -l`
+    match=`grep -Fx $filename $md5prefix.cut | wc -l`
     cut_filename=`echo $filename | cut -b-$cutsize`
     if [ 0 -eq $match ] && [ ! "$cut_filename" = './'$md5prefix ]; then
         echo $filename >> $md5prefix.new_files
