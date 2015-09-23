@@ -1,4 +1,4 @@
-#/bin/sh
+#/bin/bash
 set -e
 md5prefix='.md5sums.md5'
 
@@ -26,13 +26,17 @@ touch $md5prefix.new_files
 filelist=`find . -type f`
 cutsize=`echo $md5prefix | wc -c`
 cutsize=`expr $cutsize + 1`
+oldIFS=$IFS
+IFS=$'\n'
 for filename in $filelist; do
     match=`grep -x $filename $md5prefix.cut | wc -l`
     cut_filename=`echo $filename | cut -b-$cutsize`
     if [ 0 -eq $match ] && [ ! "$cut_filename" = './'$md5prefix ]; then
+        echo $filename
         echo $filename >> $md5prefix.new_files
     fi
 done
+IFS=$oldIFS
 rm $md5prefix.cut
 echo 'UNEXPTECTED FILES (./'$md5prefix'.new_files):'
 cat $md5prefix.new_files
