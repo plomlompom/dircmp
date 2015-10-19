@@ -27,7 +27,8 @@ filelist=`find . -type f`
 cutsize=`echo $md5prefix | wc -c`
 cutsize=`expr $cutsize + 1`
 oldIFS=$IFS
-IFS=$'\n'
+IFS="
+"
 for filename in $filelist; do
     match=`grep -Fx $filename $md5prefix.cut | wc -l`
     cut_filename=`echo $filename | cut -b-$cutsize`
